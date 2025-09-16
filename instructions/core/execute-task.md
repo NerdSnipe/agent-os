@@ -57,6 +57,13 @@ Search and extract relevant sections from technical-spec.md to understand the te
     - Integration requirements
     - Performance criteria
   </search_technical_spec>
+  
+  <large_codebase_analysis>
+    IF technical-spec.md or related files exceed context limits:
+      USE: @.agent-os/instructions/tools/gemini-analysis.md
+      COMMAND: gemini -p "@technical-spec.md @src/ Find sections related to [CURRENT_TASK]"
+      PURPOSE: Leverage Gemini's large context for comprehensive analysis
+  </large_codebase_analysis>
 </selective_reading>
 
 <instructions>
@@ -64,6 +71,7 @@ Search and extract relevant sections from technical-spec.md to understand the te
   EXTRACT: Only implementation details for current task
   SKIP: Unrelated technical specifications
   FOCUS: Technical approach for this specific feature
+  CONSIDER: Using Gemini CLI for large file analysis
 </instructions>
 
 </step>
@@ -131,6 +139,22 @@ Use the context-fetcher subagent to retrieve relevant code style rules from @.ag
 ### Step 5: Task and Sub-task Execution
 
 Execute the parent task and all sub-tasks in order using test-driven development (TDD) approach.
+
+<pre_execution_analysis>
+  <existing_code_check>
+    IF implementing new feature or modifying existing code:
+      USE: Gemini CLI to check for existing implementations
+      COMMAND: gemini -p "@src/ @lib/ Is there existing functionality for [FEATURE]? List any related implementations"
+      PURPOSE: Avoid duplicating existing code
+  </existing_code_check>
+  
+  <pattern_verification>
+    IF unsure about codebase patterns:
+      USE: Gemini CLI to identify patterns
+      COMMAND: gemini -p "@src/ What patterns are used for [SIMILAR_FEATURES]? Show examples"
+      PURPOSE: Maintain consistency with existing architecture
+  </pattern_verification>
+</pre_execution_analysis>
 
 <typical_task_structure>
   <first_subtask>Write tests for [feature]</first_subtask>

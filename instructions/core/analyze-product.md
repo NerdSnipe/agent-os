@@ -24,6 +24,37 @@ Install Agent OS into an existing codebase, analyze current product state and pr
 
 Perform a deep codebase analysis of the current codebase to understand current state before documentation purposes.
 
+<analysis_strategy>
+  <initial_assessment>
+    CHECK: Total codebase size and file count
+    DETERMINE: If context limits might be exceeded
+    DECIDE: Use standard analysis or Gemini CLI
+  </initial_assessment>
+  
+  <gemini_analysis>
+    IF codebase is large (>100KB or >50 files):
+      USE: @.agent-os/instructions/tools/gemini-analysis.md
+      EXECUTE: Comprehensive codebase analysis
+      
+      <gemini_commands>
+        # Full project overview
+        gemini --all_files -p "Provide a comprehensive analysis of this codebase including: architecture, tech stack, implemented features, coding patterns, and project structure"
+        
+        # Feature detection
+        gemini -p "@src/ @lib/ List all implemented features with their file locations"
+        
+        # Authentication check
+        gemini -p "@src/ @middleware/ @api/ Is authentication implemented? Describe the auth system"
+        
+        # Database analysis
+        gemini -p "@models/ @migrations/ @schema/ Describe the database structure and relationships"
+        
+        # Testing strategy
+        gemini -p "@tests/ @spec/ What testing approach is used? Coverage areas?"
+      </gemini_commands>
+  </gemini_analysis>
+</analysis_strategy>
+
 <analysis_areas>
   <project_structure>
     - Directory organization
@@ -54,9 +85,11 @@ Perform a deep codebase analysis of the current codebase to understand current s
 
 <instructions>
   ACTION: Thoroughly analyze the existing codebase
+  UTILIZE: Gemini CLI for large codebase analysis
   DOCUMENT: Current technologies, features, and patterns
   IDENTIFY: Architectural decisions already made
   NOTE: Development progress and completed work
+  VERIFY: Feature implementations with concrete evidence
 </instructions>
 
 </step>
